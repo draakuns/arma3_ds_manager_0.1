@@ -1,0 +1,19 @@
+Para descargar el modlist de los favoritos de un usuario:
+
+https://steamcommunity.com/profiles/76561198812900951/myworkshopfiles/?browsesort=myfavorites&browsefilter=myfavorites&p=1&numperpage=30
+
+- Buscar por <div class="workshopBrowsePagingInfo">Showing 1-30 of 39 entries</div> para calcular las paginas a descargar
+Calcular el paginginfo:
+curl -s "https://steamcommunity.com/profiles/76561198812900951/myworkshopfiles/?browsesort=myfavorites&browsefilter=myfavorites&p=1&numperpage=30" |grep -i pagingInfo  | awk -F" " '{print $5}'
+40
+
+
+- Buscar por filedetails & div para leer id y crear el modlist.txt
+
+
+curl -s $PAGINORR::I | grep -i filede | grep div | awk -F"\"" '{print $2}' | awk -F\= '{print $2}'
+
+=============================================================
+
+~/arma3$ cat ./serverfiles/mods/steamapps/workshop/appworkshop_107410.acf | grep -v [a-z] | grep "\"" | sort -k1 | uniq | wc -l
+Este fichero da la lista de mods que alguna vez ha conocido steam en este pc

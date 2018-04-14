@@ -1,0 +1,15 @@
+MODSMGT="/home/steamsrv/arma3/serverfiles/modsmgt/"
+STEAM_EXE="/home/steamsrv/arma3/steamcmd/steamcmd.sh"
+#MOD_DIR="/home/steamsrv/arma3/serverfiles/mods/"
+MOD_DIR="/home/steamsrv/arma3/serverfiles/modsmgt/modstest/"
+#MAP_DIR="/home/steamsrv/arma3/serverfiles/mpmissions"
+MAP_DIR="/home/steamsrv/arma3/serverfiles/modsmgt/mpmissionstest"
+WORKSHOP_DIR="/home/steamsrv/arma3/serverfiles/mods/steamapps/workshop/content/107410/"
+WORKSHOP_URL="https://steamcommunity.com/sharedfiles/filedetails/?id="
+#The workshopid is the number on the page: where you look at your subscribed items.
+WORKSHOP_ID="76561198812900951"
+STEAMUSR="dragoonsrv"
+STEAMPWD="complex.,-%password23TT"
+#REMOVE__WORKSHOPNUM=$1
+WS_ARMAID="107410"
+WS_ARMADSID="233780"
