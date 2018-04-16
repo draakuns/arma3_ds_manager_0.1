@@ -1,13 +1,5 @@
 Para descargar el modlist de los favoritos de un usuario:
 
-https://steamcommunity.com/profiles/76561198812900951/myworkshopfiles/?browsesort=myfavorites&browsefilter=myfavorites&p=1&numperpage=30
-
-- Buscar por <div class="workshopBrowsePagingInfo">Showing 1-30 of 39 entries</div> para calcular las paginas a descargar
-Calcular el paginginfo:
-curl -s "https://steamcommunity.com/profiles/76561198812900951/myworkshopfiles/?browsesort=myfavorites&browsefilter=myfavorites&p=1&numperpage=30" |grep -i pagingInfo  | awk -F" " '{print $5}'
-40
-
-
 - Buscar por filedetails & div para leer id y crear el modlist.txt
 
 

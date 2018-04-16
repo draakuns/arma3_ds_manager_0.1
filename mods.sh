@@ -13,9 +13,7 @@
 #	exit 100
 #fi
 
-while [ ${REMAININGITEMS} -gt 0 ]; then 
-do
-	
+fn_workshop_get_modlist_from_web
 
 #ALL the script starts here
 cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUMBER MODTYPE MODNAME ; do 

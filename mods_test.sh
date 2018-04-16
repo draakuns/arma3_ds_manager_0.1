@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Enable debug
+# set -x
+
 #ERRORLEVELS
 #100: modlist no existe
 #101: Not possible to fetch all the values to fill in the modlist.txt for a new item
@@ -13,9 +16,18 @@
 #	exit 100
 #fi
 
-fn_workshop_get_total_pages
-echo ${NUMTOTALPAGES}
-#while [ $(fn_workshop_remaining_pages) -gt 0 ]; then 
+fn_workshop_get_modlist_from_web
+
+#fn_workshop_get_total_pages
+#REMAININGITEMS=${NUMTOTALPAGES}
+#CURRPAGE=1
+#while [ ${REMAININGITEMS} -gt 0 ];  
 #do
-#echo "HOLA${REMAININGITEMS}"
-#done	
+##echo "${REMAININGITEMS}"
+#WORKSHOPFAVS+=$(curl -s "https://steamcommunity.com/profiles/${WORKSHOP_ID}/myworkshopfiles/?browsesort=myfavorites&browsefilter=myfavorites&p=${CURRPAGE}&numperpage=${NUMITEMSPERPAGE}" | grep -i filede | grep div | awk -F"\"" '{print $2}' | awk -F"=" '{print $2}' )
+#WORKSHOPFAVS+=" "
+#let "REMAININGITEMS=REMAININGITEMS-1"
+#let "CURRPAGE=CURRPAGE+1"
+#done
+
+echo ${MODLISTWEB}

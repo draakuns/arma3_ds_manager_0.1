@@ -8,6 +8,8 @@ WORKSHOP_DIR="/home/steamsrv/arma3/serverfiles/mods/steamapps/workshop/content/1
 WORKSHOP_URL="https://steamcommunity.com/sharedfiles/filedetails/?id="
 #The workshopid is the number on the page: where you look at your subscribed items.
 WORKSHOP_ID="76561198812900951"
+#Number of items per workshop fav page
+NUMITEMSPERPAGE=30
 STEAMUSR="dragoonsrv"
 STEAMPWD="complex.,-%password23TT"
 #REMOVE__WORKSHOPNUM=$1
