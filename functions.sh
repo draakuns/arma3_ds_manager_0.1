@@ -35,4 +35,13 @@ let "CURRPAGE=CURRPAGE+1"
 done
 }
 
+fn_write_modlist_to_file()
+{
+for MOD in ${MODLISTWEB}; do
+if [ ! $(grep ${MOD} ${MODSMGT}/modlist.txt) ]; then
+echo ${MOD} >> "${MODSMGT}/modlist.txt"
+fi
+done
+}
+
 

@@ -1,4 +1,5 @@
-MODSMGT="/home/steamsrv/arma3/serverfiles/modsmgt/"
+#MODSMGT="/home/steamsrv/arma3/serverfiles/modsmgt/"
+MODSMGT="/home/terraform/arma3dsmgt"
 STEAM_EXE="/home/steamsrv/arma3/steamcmd/steamcmd.sh"
 #MOD_DIR="/home/steamsrv/arma3/serverfiles/mods/"
 MOD_DIR="/home/steamsrv/arma3/serverfiles/modsmgt/modstest/"
