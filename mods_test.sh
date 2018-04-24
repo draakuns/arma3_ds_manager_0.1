@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#set -x
+
 #ERRORLEVELS
 #100: modlist no existe
 #101: Not possible to fetch all the values to fill in the modlist.txt for a new item
@@ -8,8 +10,6 @@
 . ./functions.sh
 
 
-fn_workshop_get_modlist_from_web
-fn_write_modlist_to_file
-
+fn_create_symlinks
 
 ##############################################################################

@@ -1,7 +1,8 @@
+
 fn_grab_mission_name_from_web()
 {
 #curl -s https://steamcommunity.com/sharedfiles/filedetails/?id=${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | awk -F"<" '{print $1}' | tr ' ' '_'
-curl -s ${WORKSHOP_URL}${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | awk -F"<" '{print $1}' | tr ' ' '_'
+curl -s ${WORKSHOP_URL}${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | awk -F"<" '{print $1}' | tr ' ' '_' | tr '/' '_'
 }
 
 fn_grab_mission_map_from_web()
@@ -85,8 +86,53 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
         fi # END OF NEW MODS/MISSIONS
 
 echo $MODNUMBER; echo $MODTYPE ; echo $MODNAME
-echo "AHORA QUEDA LEER EL MODLIST Y CREAR LOS LINKS Y COPIAR LAS KEYS"
 
 done
+}
 
+fn_create_symlinks()
+{
+cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUMBER MODTYPE MODNAME ; do
+
+        #if no type & name, then something is wrong with it, so we don't mess things up.
+        if [ -n "${MODTYPE}" ]; then
+                if [ -d ${WORKSHOP_DIR}/${MODNUMBER} ]; then
+                        #
+                        if [ "${MODTYPE}" == "MOD" ]; then
+				if [ ! -L '${MOD_DIR}/@${MODNAME}' ]; then 
+					ln -s "${WORKSHOP_DIR}/${MODNUMBER}" "${MOD_DIR}/@${MODNAME}"
+				else 
+					echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
+				fi
+                        elif [ "${MODTYPE}" == "MIS" ]; then
+                                if [ ! -L ${MAP_DIR}/${MODNAME} ]; then
+set -x
+					find ${WORKSHOP_DIR}/${MODNUMBER} -name '*.bin' -exec ln -s {} "${MAP_DIR}/${MODNAME}"  \;
+set +x
+                                else
+                                        echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
+                                fi
+                        fi
+                else
+                        echo "ERR!: MOD/MISSION ${MODNUMBER} not downloaded correctly"
+                        #exit 102
+                fi
+	else 
+		echo "ERR!: No info on modlist file, so we skip this!"
+        fi # END OF NEW MODS/MISSIONS
+done
+
+}
+
+fn_tolower()
+{
+	if [ -n ${WORKSHOP_DIR} ]; then 
+		find $WORKSHOP_DIR -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
+	else 
+		echo "Empty values on cfg or variables, nor renaming"
+}
+
+fn_copy_keys()
+{
+	find ${WORKSHOP_DIR} -type f -name '*.bikey' -exec cp {} ${KEY_DIR}  \;
 }
