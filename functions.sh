@@ -38,10 +38,13 @@ done
 
 fn_write_modlist_to_file()
 {
-for MOD in ${MODLISTWEB}; do
-if [ ! $(grep ${MOD} ${MODSMGT}/modlist.txt) ]; then
-echo ${MOD} >> "${MODSMGT}/modlist.txt"
+if [ ! -e ${MODSMGT}/modlist.txt ]; then 
+	touch ${MODSMGT}/modlist.txt
 fi
+for MOD in ${MODLISTWEB}; do
+	if [ ! $(grep ${MOD} ${MODSMGT}/modlist.txt) ]; then
+		echo ${MOD} >> "${MODSMGT}/modlist.txt"
+	fi
 done
 }
 
