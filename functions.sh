@@ -102,8 +102,8 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
                 if [ -d ${WORKSHOP_DIR}/${MODNUMBER} ]; then
                         #
                         if [ "${MODTYPE}" == "MOD" ]; then
-				if [ ! -L '${MOD_DIR}/@${MODNAME}' ]; then 
-					ln -s "${WORKSHOP_DIR}/${MODNUMBER}" "${MOD_DIR}/@${MODNAME}"
+				if [ ! -L '${MOD_DIR}/${MODNAME}' ]; then 
+					ln -s "${WORKSHOP_DIR}/${MODNUMBER}" "${MOD_DIR}/${MODNAME}"
 				else 
 					echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
 				fi
