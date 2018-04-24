@@ -106,9 +106,9 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
 				fi
                         elif [ "${MODTYPE}" == "MIS" ]; then
                                 if [ ! -L ${MAP_DIR}/${MODNAME} ]; then
-set -x
+#set -x
 					find ${WORKSHOP_DIR}/${MODNUMBER} -name '*.bin' -exec ln -s {} "${MAP_DIR}/${MODNAME}"  \;
-set +x
+#set +x
                                 else
                                         echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
                                 fi
@@ -130,6 +130,7 @@ fn_tolower()
 		find $WORKSHOP_DIR -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 	else 
 		echo "Empty values on cfg or variables, nor renaming"
+	fi
 }
 
 fn_copy_keys()
