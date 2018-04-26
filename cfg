@@ -9,7 +9,7 @@ WORKSHOP_URL="https://steamcommunity.com/sharedfiles/filedetails/?id="
 #The workshopid is the number on the page: where you look at your subscribed items.
 WORKSHOP_ID="76561198812900951"
 STEAMUSR="dragoonsrv"
-STEAMPWD="complex.,-%password23TT"
+STEAMPWD=""
 #REMOVE__WORKSHOPNUM=$1
 WS_ARMAID="107410"
 WS_ARMADSID="233780"
