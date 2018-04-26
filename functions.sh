@@ -3,7 +3,7 @@ fn_grab_mission_name_from_web()
 {
 #curl -s https://steamcommunity.com/sharedfiles/filedetails/?id=${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | awk -F"<" '{print $1}' | tr ' ' '_'
 curl -s ${WORKSHOP_URL}${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | \
-awk -F"<" '{print $1}' | tr ' ' '_' | tr '/' '_' | tr -d '[' | tr -d ']' | tr -d '#' | tr -d '+'
+awk -F"<" '{print $1}' | tr ' ' '_' | tr '/' '_' | tr -d '[' | tr -d ']' | tr -d '#' | tr '+' ' '
 }
 
 fn_grab_mission_map_from_web()
@@ -89,7 +89,7 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
                 fi
         fi # END OF NEW MODS/MISSIONS
 
-echo $MODNUMBER; echo $MODTYPE ; echo $MODNAME
+echo "$MODNUMBER -- $MODTYPE -- $MODNAME"
 
 done
 }
@@ -109,22 +109,20 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
 					echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
 				fi
                         elif [ "${MODTYPE}" == "MIS" ]; then
-#                                if [ ! -L ${MAP_DIR}/${MODNAME} ]; then
-				if [ $(ls -l ${MAP_DIR} | grep -w ${WORKSHOP_DIR}/${MODNUMBER}) ]; then
-#set -x
-					echo "se crearia el link"
-					find ${WORKSHOP_DIR}/${MODNUMBER} -name '*.bin' -exec ln -s {} "${MAP_DIR}/${MODNAME}"  \;
-#set +x
+                                ls -l ${MAP_DIR} | grep -qw ${MODNUMBER}
+                                if [ $? -ne 0 ]; then
+                                        echo "INFO: Link for ${MODNAME} has been created"
+                                        find ${WORKSHOP_DIR}/${MODNUMBER} -name '*.bin' -exec ln -s {} "${MAP_DIR}/${MODNAME}"  \;
                                 else
-                                        echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
+                                        echo "WARN: Link for ${MODTYPE} ${MODNAME} already exists!!!"
                                 fi
                         fi
                 else
-                        echo "ERR!: MOD/MISSION ${MODNUMBER} not downloaded correctly"
+                        echo "ERR: MOD/MISSION ${MODNUMBER} not downloaded correctly"
                         #exit 102
                 fi
 	else 
-		echo "ERR!: No info on modlist file, so we skip this!"
+		echo "ERR: No info on modlist file, so we skip this!"
         fi # END OF NEW MODS/MISSIONS
 done
 
@@ -135,11 +133,12 @@ fn_tolower()
 	if [ -n ${WORKSHOP_DIR} ]; then 
 		find $WORKSHOP_DIR -depth -exec rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 	else 
-		echo "Empty values on cfg or variables, nor renaming"
+		echo "ERR: Empty values on cfg or variables, nor renaming"
 	fi
 }
 
 fn_copy_keys()
 {
 	find ${WORKSHOP_DIR} -type f -name '*.bikey' -exec cp {} ${KEY_DIR}  \;
+	echo "INFO: MOD signed keys copied to A3 keys datastore"
 }
