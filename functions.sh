@@ -3,7 +3,7 @@ fn_grab_mission_name_from_web()
 {
 #curl -s https://steamcommunity.com/sharedfiles/filedetails/?id=${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | awk -F"<" '{print $1}' | tr ' ' '_'
 curl -s ${WORKSHOP_URL}${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | \
-awk -F"<" '{print $1}' | tr ' ' '_' | tr '/' '_' | tr -d '[' | tr -d ']' | tr -d '#'
+awk -F"<" '{print $1}' | tr ' ' '_' | tr '/' '_' | tr -d '[' | tr -d ']' | tr -d '#' | tr -d '+'
 }
 
 fn_grab_mission_map_from_web()
