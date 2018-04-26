@@ -104,9 +104,10 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
                         #
                         if [ "${MODTYPE}" == "MOD" ]; then
 				if [ ! -L ${MOD_DIR}/${MODNAME} ]; then 
+					echo "INFO: Link for ${MODNAME} has been created"
 					ln -s "${WORKSHOP_DIR}/${MODNUMBER}" "${MOD_DIR}/${MODNAME}"
 				else 
-					echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
+					echo "WARN: Link for ${MODTYPE} ${MODNAME} already exists!!!"
 				fi
                         elif [ "${MODTYPE}" == "MIS" ]; then
                                 ls -l ${MAP_DIR} | grep -qw ${MODNUMBER}
@@ -114,7 +115,7 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
                                         echo "INFO: Link for ${MODNAME} has been created"
                                         find ${WORKSHOP_DIR}/${MODNUMBER} -name '*.bin' -exec ln -s {} "${MAP_DIR}/${MODNAME}"  \;
                                 else
-                                        echo "WARN: Link for ${MODTYPE} ${MODNAME} already exists!!!"
+                                        echo "WARN: Link for ${MODTYPE} ${MODNAME} -- ${MODNUMBER} already exists!!!"
                                 fi
                         fi
                 else
