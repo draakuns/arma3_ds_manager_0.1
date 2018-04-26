@@ -2,7 +2,8 @@
 fn_grab_mission_name_from_web()
 {
 #curl -s https://steamcommunity.com/sharedfiles/filedetails/?id=${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | awk -F"<" '{print $1}' | tr ' ' '_'
-curl -s ${WORKSHOP_URL}${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | awk -F"<" '{print $1}' | tr ' ' '_' | tr '/' '_'
+curl -s ${WORKSHOP_URL}${1} |grep "Subscribe to download" |awk -F"<br>" '{print $2}' | \
+awk -F"<" '{print $1}' | tr ' ' '_' | tr '/' '_' | tr -d '[' | tr -d ']' | tr -d '#'
 }
 
 fn_grab_mission_map_from_web()
@@ -55,7 +56,7 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
         #if no type & name, then it's a new mod/miss
         if [ -z "${MODTYPE}" ]; then
                 #MOD NOT DL'd, START DOWNLOAD OF THE MOD
-                echo "${MODSMGT}/download_mod.sh ${MODNUMBER}"
+                echo "INFO: ${MODSMGT}/download_mod.sh ${MODNUMBER}"
                 ${MODSMGT}/download_mod.sh ${MODNUMBER}
 		if [ -d ${WORKSHOP_DIR}/${MODNUMBER} ]; then
 	                #GRAB TYPE
@@ -102,14 +103,16 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
                 if [ -d ${WORKSHOP_DIR}/${MODNUMBER} ]; then
                         #
                         if [ "${MODTYPE}" == "MOD" ]; then
-				if [ ! -L '${MOD_DIR}/${MODNAME}' ]; then 
+				if [ ! -L ${MOD_DIR}/${MODNAME} ]; then 
 					ln -s "${WORKSHOP_DIR}/${MODNUMBER}" "${MOD_DIR}/${MODNAME}"
 				else 
 					echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
 				fi
                         elif [ "${MODTYPE}" == "MIS" ]; then
-                                if [ ! -L ${MAP_DIR}/${MODNAME} ]; then
+#                                if [ ! -L ${MAP_DIR}/${MODNAME} ]; then
+				if [ $(ls -l ${MAP_DIR} | grep -w ${WORKSHOP_DIR}/${MODNUMBER}) ]; then
 #set -x
+					echo "se crearia el link"
 					find ${WORKSHOP_DIR}/${MODNUMBER} -name '*.bin' -exec ln -s {} "${MAP_DIR}/${MODNAME}"  \;
 #set +x
                                 else
