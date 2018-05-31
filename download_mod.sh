@@ -5,7 +5,9 @@
 . cfg
 
 fn_steamcmd_dl(){
+#set -x 
 ${STEAM_EXE} +login ${STEAMUSR} ${STEAMPWD} +force_install_dir ${MOD_DIR} +"workshop_download_item 107410 $1" validate +quit
+#${STEAM_EXE} +login dragoonspain +force_install_dir ${MOD_DIR} +"workshop_download_item 107410 $1" validate +quit
 }
 
 fn_steamcmd_status(){

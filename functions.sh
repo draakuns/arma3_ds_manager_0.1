@@ -104,10 +104,9 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
                         #
                         if [ "${MODTYPE}" == "MOD" ]; then
 				if [ ! -L ${MOD_DIR}/${MODNAME} ]; then 
-					echo "INFO: Link for ${MODNAME} has been created"
 					ln -s "${WORKSHOP_DIR}/${MODNUMBER}" "${MOD_DIR}/${MODNAME}"
 				else 
-					echo "WARN: Link for ${MODTYPE} ${MODNAME} already exists!!!"
+					echo "Link for ${MODTYPE} ${MODNAME} already exists!!!"
 				fi
                         elif [ "${MODTYPE}" == "MIS" ]; then
                                 ls -l ${MAP_DIR} | grep -qw ${MODNUMBER}
@@ -128,6 +127,24 @@ cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUM
 done
 
 }
+
+fn_update_mod()
+{
+cat ${MODSMGT}/modlist.txt | awk -F":" '{print $1" "$2" "$3}'| while read MODNUMBER MODTYPE MODNAME ; do
+
+        #if no type & name, then it's a new mod/miss
+        if [ -z "${MODTYPE}" ]; then
+		echo "$MODNUMBER : Not updating, not yet downloaded properly"
+	else
+                #MOD NOT DL'd, START DOWNLOAD OF THE MOD
+                echo "INFO: ${MODSMGT}/download_mod.sh ${MODNUMBER}"
+		${STEAM_EXE} +login dragoonspain +force_install_dir ${MOD_DIR} +"workshop_download_item 107410 $1" validate +quit
+		#${STEAM_EXE} +login ${STEAMUSR} ${STEAMPWD} +force_install_dir ${MOD_DIR} +"workshop_download_item 107410 $MODNUMBER" validate +quit | tee -a ${MODSMGT}/logs/update.log
+        fi # END OF NEW MODS/MISSIONS
+
+done
+}
+
 
 fn_tolower()
 {
